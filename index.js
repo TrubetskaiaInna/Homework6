@@ -1,10 +1,6 @@
 class Atm {
-  constructor (balance) {
+  constructor () {
     this.balance = 0
-  }
-
-  get showBalance () {
-    return this.balance
   }
 
   set addMoneyAtm (value) {
@@ -12,13 +8,25 @@ class Atm {
   }
 }
 
-const arr = [50, 100, 200, 300, 500, 1000]
-let someSumMoneyAtm = 1000   //input
-let someArrBillsAtm = [500, 200, 200, 100] //input
+class CreditCard {
+  constructor () {
+    this.balance = 0
+  }
+
+  set addMoneyCard (value) {
+    this.balance = value
+  }
+}
+
+//const arr = [50, 100, 200, 300, 500, 1000]
+const someSumMoneyAtm = 1000   //input
+const someArrBillsAtm = [500, 200, 200, 100] //input
+const someSumMoneyCard = 2000 //input
 let sumArrCup = 0
-let moneyAtm = []
+const moneyAtm = []
+let resultAddBillsAtm
 const addBillsAtm = (sum, arrBills) => {
-  let resultAddBillsAtm = 'Error!'
+  resultAddBillsAtm = 'Error! Incorrectly entered bills'
   for (let i = 0; i < arrBills.length; i++) {
     sumArrCup += arrBills[i]
     if (sum === sumArrCup) {
@@ -29,9 +37,12 @@ const addBillsAtm = (sum, arrBills) => {
   return resultAddBillsAtm
 }
 
-addBillsAtm(someSumMoneyAtm,someArrBillsAtm)
+addBillsAtm(someSumMoneyAtm, someArrBillsAtm)
 
-let atm = new Atm()
+const atm = new Atm()
+const creditCard = new CreditCard()
 
-atm.addMoneyAtm = moneyAtm
+atm.addMoneyAtm = resultAddBillsAtm
 console.log(atm.balance)  //button
+creditCard.addMoneyCard = someSumMoneyCard
+console.log(creditCard.balance) //button

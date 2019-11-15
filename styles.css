@@ -1,0 +1,77 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+#atmWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 600px;
+  border: 2px solid black;
+  border-radius: 20%;
+  background-color: darkcyan;
+}
+
+#screen {
+  width: 300px;
+  height: 200px;
+  background-color: darkgray;
+  color: white;
+  border: 2px solid cornflowerblue;
+}
+
+#createdCardWrapper{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 360px;
+  height: 100px;
+}
+
+#cardName{
+  width: 250px;
+  height: 26px;
+  background-color: darkgray;
+  outline: none;
+  color: lavender;
+  border: 2px solid cornflowerblue;
+}
+
+#createdCard{
+  width: 100px;
+  height: 30px;
+  font-size: 11px;
+  border-radius: 5px;
+  background-color: lightblue;
+  outline: none;
+}
+
+#buttonWrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100px;
+  height: 100px;
+}
+
+#showBalanceAtm,#showBalanceCard,#withdrawCash{
+  width: 100px;
+  height: 30px;
+  font-size: 11px;
+  border-radius: 5px;
+  background-color: lightblue;
+  outline: none;
+}
+
+.button {
+  width: 150px;
+  height: 30px;
+  font-size: 11px;
+  border-radius: 5px;
+  background-color: lightblue;
+  outline: none;
+}

@@ -1,8 +1,31 @@
+const screenResult = document.getElementById('screenResult')
+const inputAddAndWithdraw = document.getElementById('inputAddAndWithdraw')
+const showBalanceAtm = document.getElementById('showBalanceAtm')
+const showBalanceCard = document.getElementById('showBalanceCard')
+const aadMoneyAtm = document.getElementById('aadMoneyAtm')
+const sum = document.getElementById('sum')
+const bills = document.getElementById('bills')
+const addMoneyCard = document.getElementById('addMoneyCard')
+const withdrawCash = document.getElementById('withdrawCash')
+const one = document.getElementById('one')
+const two = document.getElementById('two')
+const three = document.getElementById('three')
+const four = document.getElementById('four')
+const five = document.getElementById('five')
+const six = document.getElementById('six')
+const seven = document.getElementById('seven')
+const eight = document.getElementById('eight')
+const nine = document.getElementById('nine')
+const zero = document.getElementById('zero')
+const createdCard = document.getElementById('createdCard')
+const buttonAddMoneyCard = document.getElementById('buttonAddMoneyCard')
+const buttonWithdrawCashCard = document.getElementById('buttonWithdrawCashCard')
 let issueBills = []
+let card
 
 class CreditCard {
   constructor () {
-    this.balance = 100
+    this.balance = 0
   }
 
   get showBalance () {
@@ -16,7 +39,10 @@ class CreditCard {
   validationMoneyCard (money) {
     if (this.balance >= money) {
       return true
-    } else {alert('Error!Not enough money on the card')}
+    } else {
+      screenResult.style.justifyContent = 'center'
+      screenResult.innerHTML = 'Error!Not enough money in card'
+    }
   }
 }
 
@@ -44,15 +70,21 @@ class Atm extends CreditCard {
       newArrayOfBills = this.balance.bills
       newArrayOfBills.push(...arrBills)
       this.balance.bills = newArrayOfBills
+      screenResult.innerHTML = ''
     } else {
-      alert('Error!')
+      screenResult.style.justifyContent = 'center'
+      screenResult.innerHTML = 'Error! Incorrect denomination bills'
     }
   }
 
   validationMoneyAtm = (money) => {
     if (this.balance.sum >= money) {
+      screenResult.innerHTML = ''
       return true
-    } else {alert('Error!Not enough money on the atm')}
+    } else {
+      screenResult.style.justifyContent = 'center'
+      screenResult.innerHTML = 'Error!Not enough money in Atm'
+    }
   }
 
   validationBillsAvailability = (money) => {
@@ -60,24 +92,29 @@ class Atm extends CreditCard {
     let rest
     this.balance.bills.sort((a, b) => b - a)
     let minBill = Math.min.apply(null, this.balance.bills)
-    if (money < minBill) {
-      alert(`Error! There is no ${money} in ATM choose another sum`)
-      return false
-    } else {
-      for (let i = 0; i < this.balance.bills.length; i++) {
-        if (money >= this.balance.bills[i]) {
-          rest = money - this.balance.bills[i]
-          money = rest
-          issueBills.push(this.balance.bills[i])
+    if (money === 0) {} else {
+      if (money < minBill) {
+        screenResult.style.justifyContent = 'left'
+        screenResult.innerHTML = `Error! There is no ${money} in ATM choose another sum. Available bills ${atm.showBalance.bills}`
+        return false
+      } else {
+        for (let i = 0; i < this.balance.bills.length; i++) {
+          if (money >= this.balance.bills[i]) {
+            rest = money - this.balance.bills[i]
+            money = rest
+            issueBills.push(this.balance.bills[i])
+          }
         }
       }
+      if (rest !== 0) {
+        screenResult.style.justifyContent = 'left'
+        screenResult.innerHTML = `Error! There is no ${money} in ATM choose another sum.Available bills ${atm.showBalance.bills}`
+        return false
+      }
+      screenResult.innerHTML = `Here is your money ${issueBills}`
+      screenResult.style.justifyContent = 'center'
+      return issueBills
     }
-    if (rest !== 0) {
-      alert(`Error! There is no ${money} in ATM choose another sum`)
-      return false
-    }
-    console.log(`Here is your money ${issueBills}`)
-    return issueBills
   }
 
   withdrawCash = (supper, money) => {
@@ -101,13 +138,117 @@ class Atm extends CreditCard {
 }
 
 const atm = new Atm()
-const creditCard = new CreditCard()
 
-atm.addMoneyAtm(2000, [500, 100, 100, 100, 100, 50, 50, 500, 500])
-console.log(atm.showBalance)
-creditCard.addMoneyCard(2000)
-atm.withdrawCash(creditCard, 1000)
-atm.withdrawCash(creditCard, 500)
+createdCard.addEventListener('click', () => {
+  card = new CreditCard()
+  screenResult.innerHTML = ''
+  screenResult.innerHTML = 'You created new credit card'
+})
 
-console.log(atm.showBalance)
-console.log(creditCard.showBalance)
+showBalanceAtm.addEventListener('click', () => {
+  screenResult.innerHTML = `${atm.showBalance.sum},[${atm.showBalance.bills}]`
+  inputAddAndWithdraw.style.display = 'none'
+  buttonAddMoneyCard.style.display = 'none'
+  if (atm.balance.bills.length >= 7) {
+    screenResult.style.justifyContent = 'left'
+  }
+})
+
+showBalanceCard.addEventListener('click', () => {
+  if (card === undefined) {
+    screenResult.innerHTML = 'Error! Creat new credit card'
+  } else {
+    screenResult.innerHTML = `${card.showBalance}`
+    inputAddAndWithdraw.style.display = 'none'
+    buttonAddMoneyCard.style.display = 'none'
+    buttonWithdrawCashCard.style.display = 'none'
+    screenResult.style.justifyContent = 'center'
+  }
+})
+
+aadMoneyAtm.addEventListener('click', () => {
+  let a = bills.value.split(' ')
+  for (let i = 0; i < a.length; i++) {
+    a[i] = Number(a[i])
+  }
+  if (sum.value !== '') {
+    atm.addMoneyAtm(Number(sum.value), a)
+    sum.value = ''
+    bills.value = ''
+    buttonWithdrawCashCard.style.display = 'none'
+    buttonAddMoneyCard.style.display = 'none'
+    inputAddAndWithdraw.style.display = 'none'
+  }
+})
+
+one.addEventListener('click', () => {
+  inputAddAndWithdraw.value += one.innerText
+})
+two.addEventListener('click', () => {
+  inputAddAndWithdraw.value += two.innerText
+})
+three.addEventListener('click', () => {
+  inputAddAndWithdraw.value += three.innerText
+})
+four.addEventListener('click', () => {
+  inputAddAndWithdraw.value += four.innerText
+})
+five.addEventListener('click', () => {
+  inputAddAndWithdraw.value += five.innerText
+})
+six.addEventListener('click', () => {
+  inputAddAndWithdraw.value += six.innerText
+})
+seven.addEventListener('click', () => {
+  inputAddAndWithdraw.value += seven.innerText
+})
+eight.addEventListener('click', () => {
+  inputAddAndWithdraw.value += eight.innerText
+})
+nine.addEventListener('click', () => {
+  inputAddAndWithdraw.value += nine.innerText
+})
+zero.addEventListener('click', () => {
+  inputAddAndWithdraw.value += zero.innerText
+})
+
+addMoneyCard.addEventListener('click', () => {
+  if (card === undefined) {
+    screenResult.innerHTML = 'Error! Creat new credit card'
+  } else {
+    inputAddAndWithdraw.value = ''
+    inputAddAndWithdraw.style.display = 'block'
+    buttonAddMoneyCard.style.display = 'block'
+    buttonWithdrawCashCard.style.display = 'none'
+    inputAddAndWithdraw.style.borderColor = 'cornflowerblue'
+  }
+})
+
+buttonAddMoneyCard.addEventListener('click', () => {
+  card.addMoneyCard(Number(inputAddAndWithdraw.value))
+  const sumAdd = inputAddAndWithdraw.value
+  inputAddAndWithdraw.value = ''
+  screenResult.innerHTML = ''
+  inputAddAndWithdraw.style.display = 'none'
+  buttonAddMoneyCard.style.display = 'none'
+  screenResult.innerHTML = `You added ${sumAdd} to credit card`
+})
+
+withdrawCash.addEventListener('click', () => {
+  if (card === undefined) {
+    screenResult.innerHTML = 'Error! Creat new credit card'
+  } else {
+    inputAddAndWithdraw.value = ''
+    inputAddAndWithdraw.style.display = 'block'
+    buttonWithdrawCashCard.style.display = 'block'
+    buttonAddMoneyCard.style.display = 'none'
+    inputAddAndWithdraw.style.borderColor = 'green'
+  }
+})
+
+buttonWithdrawCashCard.addEventListener('click', () => {
+  atm.withdrawCash(card, Number(inputAddAndWithdraw.value))
+  inputAddAndWithdraw.value = ''
+  inputAddAndWithdraw.style.display = 'none'
+  buttonWithdrawCashCard.style.display = 'none'
+})

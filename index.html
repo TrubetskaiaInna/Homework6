@@ -4,22 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Atm</title>
   <link href="./styles.css" rel="stylesheet">
 </head>
 <body>
-<div id="atmWrapper">
-  <div id="screen"></div>
-  <div id="buttonWrapper">
-    <button id="showBalanceAtm">Show balance Atm</button>
-    <button id="showBalanceCard">Show balance credit card</button>
-    <button id="withdrawCash">With draw cash</button>
+<div class="atmWrapper">
+  <div class="topWrapper">
+    <div class="screen">
+      <div id="screenResult"></div>
+      <div id="inputWrapper">
+        <input type="text" id="inputAddAndWithdraw" placeholder="Enter the amount of money">
+        <button id="buttonAddMoneyCard">ok</button>
+        <button id="buttonWithdrawCashCard">ok</button>
+      </div>
+    </div>
   </div>
-  <div id="createdCardWrapper">
-    <input type="text" id="cardName" placeholder="Enter card name">
-    <button id="createdCard">Created new credit card</button>
+  <div class="buttonWrapper">
+    <button class="buttonNumber" id="one">1</button>
+    <button class="buttonNumber" id="two">2</button>
+    <button class="buttonNumber" id="three">3</button>
+    <button class="buttonNumber" id="four">4</button>
+    <button class="buttonNumber" id="five">5</button>
+    <button class="buttonNumber" id="six">6</button>
+    <button class="buttonNumber" id="seven">7</button>
+    <button class="buttonNumber" id="eight">8</button>
+    <button class="buttonNumber" id="nine">9</button>
+    <button class="buttonNumber" id="zero">0</button>
+    <button class="button" id="showBalanceCard">Show balance card</button>
+    <button class="button" id="addMoneyCard">Add money to credit card</button>
+    <button class="button" id="withdrawCash">Withdraw cash</button>
+  </div>
+  <div class="createdCardWrapper">
+    <button id="createdCard">Create credit card</button>
+  </div>
+  <div class="service">
+    <div class="text"><span>Service Atm</span></div>
+    <input type="text" id="sum" placeholder="Enter the amount of money">
+    <input type="text" id="bills" placeholder="Enter bills (using space)">
     <button class="button" id="aadMoneyAtm">Add money to Atm</button>
-    <button class="button" id="aadMoneyCard">Add money to credit card</button>
+    <button class="button" id="showBalanceAtm">Show balance Atm</button>
   </div>
 </div>
 <script src="./index.js"></script>

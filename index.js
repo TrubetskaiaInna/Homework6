@@ -62,7 +62,7 @@ class Atm extends CreditCard {
   addMoneyAtm = (sum, arrBills) => {
     let sumArrBills = 0
     for (let i = 0; i < arrBills.length; i++) {
-      sumArrBills += arrBills[i]
+      sumArrBills += Number(arrBills[i])
     }
     if (sum === sumArrBills) {
       this.balance.sum += sum
@@ -92,7 +92,7 @@ class Atm extends CreditCard {
     let rest
     this.balance.bills.sort((a, b) => b - a)
     let minBill = Math.min.apply(null, this.balance.bills)
-    if (money === 0) {} else {
+    if (money) {
       if (money < minBill) {
         screenResult.style.justifyContent = 'left'
         screenResult.innerHTML = `Error! There is no ${money} in ATM choose another sum. Available bills ${atm.showBalance.bills}`
@@ -118,18 +118,14 @@ class Atm extends CreditCard {
   }
 
   withdrawCash = (supper, money) => {
-    if (supper.validationMoneyCard(money)) {
-      if (this.validationMoneyAtm(money)) {
-        if (this.validationBillsAvailability(money)) {
-          supper.balance -= money
-          this.balance.sum -= money
-          for (let i = 0; i < issueBills.length; i++) {
-            for (let j = 0; j < this.balance.bills.length; j++) {
-              if (issueBills[i] === this.balance.bills[j]) {
-                this.balance.bills.splice(j, 1)
-                break
-              }
-            }
+    if (supper.validationMoneyCard(money) && this.validationMoneyAtm(money) && this.validationBillsAvailability(money)) {
+      supper.balance -= money
+      this.balance.sum -= money
+      for (let i = 0; i < issueBills.length; i++) {
+        for (let j = 0; j < this.balance.bills.length; j++) {
+          if (issueBills[i] === this.balance.bills[j]) {
+            this.balance.bills.splice(j, 1)
+            break
           }
         }
       }
@@ -155,7 +151,7 @@ showBalanceAtm.addEventListener('click', () => {
 })
 
 showBalanceCard.addEventListener('click', () => {
-  if (card === undefined) {
+  if (!card) {
     screenResult.innerHTML = 'Error! Creat new credit card'
   } else {
     screenResult.innerHTML = `${card.showBalance}`
@@ -168,16 +164,17 @@ showBalanceCard.addEventListener('click', () => {
 
 aadMoneyAtm.addEventListener('click', () => {
   let a = bills.value.split(' ')
-  for (let i = 0; i < a.length; i++) {
-    a[i] = Number(a[i])
-  }
   if (sum.value !== '') {
-    atm.addMoneyAtm(Number(sum.value), a)
-    sum.value = ''
-    bills.value = ''
-    buttonWithdrawCashCard.style.display = 'none'
-    buttonAddMoneyCard.style.display = 'none'
-    inputAddAndWithdraw.style.display = 'none'
+    if (isFinite(sum.value)) {
+      atm.addMoneyAtm(Number(sum.value), a)
+      sum.value = ''
+      bills.value = ''
+      buttonWithdrawCashCard.style.display = 'none'
+      buttonAddMoneyCard.style.display = 'none'
+      inputAddAndWithdraw.style.display = 'none'
+    } else {
+      screenResult.innerHTML = `Error! Incorrectly entered data`
+    }
   }
 })
 
@@ -213,7 +210,8 @@ zero.addEventListener('click', () => {
 })
 
 addMoneyCard.addEventListener('click', () => {
-  if (card === undefined) {
+  screenResult.innerHTML = ''
+  if (!card) {
     screenResult.innerHTML = 'Error! Creat new credit card'
   } else {
     inputAddAndWithdraw.value = ''
@@ -225,17 +223,22 @@ addMoneyCard.addEventListener('click', () => {
 })
 
 buttonAddMoneyCard.addEventListener('click', () => {
-  card.addMoneyCard(Number(inputAddAndWithdraw.value))
-  const sumAdd = inputAddAndWithdraw.value
-  inputAddAndWithdraw.value = ''
-  screenResult.innerHTML = ''
-  inputAddAndWithdraw.style.display = 'none'
-  buttonAddMoneyCard.style.display = 'none'
-  screenResult.innerHTML = `You added ${sumAdd} to credit card`
+  if (isFinite(inputAddAndWithdraw.value)) {
+    card.addMoneyCard(Number(inputAddAndWithdraw.value))
+    const sumAdd = inputAddAndWithdraw.value
+    inputAddAndWithdraw.value = ''
+    screenResult.innerHTML = ''
+    inputAddAndWithdraw.style.display = 'none'
+    buttonAddMoneyCard.style.display = 'none'
+    screenResult.innerHTML = `You added ${sumAdd} to credit card`
+  } else {
+    screenResult.innerHTML = `Error! Incorrectly entered data`
+  }
 })
 
 withdrawCash.addEventListener('click', () => {
-  if (card === undefined) {
+  screenResult.innerHTML = ''
+  if (!card) {
     screenResult.innerHTML = 'Error! Creat new credit card'
   } else {
     inputAddAndWithdraw.value = ''
@@ -247,8 +250,12 @@ withdrawCash.addEventListener('click', () => {
 })
 
 buttonWithdrawCashCard.addEventListener('click', () => {
-  atm.withdrawCash(card, Number(inputAddAndWithdraw.value))
-  inputAddAndWithdraw.value = ''
-  inputAddAndWithdraw.style.display = 'none'
-  buttonWithdrawCashCard.style.display = 'none'
+  if (isFinite(inputAddAndWithdraw.value)) {
+    atm.withdrawCash(card, Number(inputAddAndWithdraw.value))
+    inputAddAndWithdraw.value = ''
+    inputAddAndWithdraw.style.display = 'none'
+    buttonWithdrawCashCard.style.display = 'none'
+  } else {
+    screenResult.innerHTML = `Error! Incorrectly entered data`
+  }
 })

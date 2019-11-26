@@ -164,9 +164,12 @@ showBalanceCard.addEventListener('click', () => {
 
 aadMoneyAtm.addEventListener('click', () => {
   let a = bills.value.split(' ')
+  let filtered = a.filter(function (element) {
+    return (element !== '0')
+  })
   if (sum.value !== '') {
     if (isFinite(sum.value)) {
-      atm.addMoneyAtm(Number(sum.value), a)
+      atm.addMoneyAtm(Number(sum.value), filtered)
       sum.value = ''
       bills.value = ''
       buttonWithdrawCashCard.style.display = 'none'
